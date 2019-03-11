@@ -1,6 +1,6 @@
 <?php
 
-// sleep(3);
+// sleep(3); // on peut ralentir le script volontairement
 
 $sentences = [
     'Hello world!',
