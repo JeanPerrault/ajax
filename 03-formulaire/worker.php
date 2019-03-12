@@ -1,23 +1,37 @@
 <?php
 
-$name = null;
-$message = null;
+sleep(1);
 
-if ($_SERVER['REQUEST_METHOD'] === "POST") {
+header('Content-Type: application/json');
 
-     // Récupération des données
-    $name     = isset($_POST['name']) ? trim($_POST['name']) : null;
-    $message  = isset($_POST['mess']) ? trim($_POST['mess']) : null;
-    
+// On vérifie que le formulaire a été soumis
+if ('POST' === $_SERVER['REQUEST_METHOD']) {
+    // On récupère les champs du formulaire
+    $name = $_POST['name'];
+    $message = $_POST['message'];
 
-    if (strlen($name) <2 ){
-        echo "Le nom doit comporter au moins 2 caracteres";
-    }else if (strlen($message) <2){
-        echo "le message doit comporter au moins 2 caracteres";
+    // On prépare le tableau avec les erreurs
+    $errors = [];
 
-    }else {
-
-        echo 'Succès';
+    // On vérifie le champ name
+    if (strlen($name) < 2) {
+        $errors['name'] = 'Erreur name';
+        // echo 'Erreur name';
     }
 
+    // On vérifie le champ message
+    if (strlen($message) < 2) {
+        $errors['message'] = 'Erreur message';
+        // echo 'Erreur message';
+    }
+
+    // On vérifie si le formulaire contient des erreurs
+    if (empty($errors)) {
+        echo json_encode(['success' => [
+            'name' => $name,
+            'message' => $message
+        ]]);
+    } else {
+        echo json_encode(['errors' => $errors]);
+    }
 }
