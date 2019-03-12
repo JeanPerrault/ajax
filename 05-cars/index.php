@@ -11,7 +11,7 @@
 <body>
 
     <h1></h1>
-    <ul id="success"></ul>
+    <ul id="voiture"></ul>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -20,13 +20,14 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <script>
-    $.get('./smartphone.php').done(function (data) {
+    $.get('./cars.php').done(function (data) {
         for(var i=0;i<data.length;i++){
-            $('#success').append($('<li>'+data[i].brand+'  '+data[i].model+' <br /> Prix : '+data[i].price+'</li>'));
+            // $('#voiture').append($('<li>'+data[i].brand+'  '+data[i].model+' <br /> '+ $("<img scr=./"+data[i].picture+">") +' <br /> Prix : '+data[i].price+'€'+'</li>'));
+            $('#voiture').append($('<li>'+data[i].brand+'  '+data[i].model+' <br /> Prix : '+data[i].price+'€'+'</li>'));
+            $('#voiture').append($('<img src=./'+data[i].picture+'>'));
         }
         
     });
-    
     </script>
 </body>
 </html>
