@@ -38,13 +38,39 @@
 
                     <button type="submit" class="btn btn-success btn-block">Valider</button>
 
-                    
+                    <h1></h1>
                 </form>
             </div>
         </div>
     </div>
 
+    
+
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+    
+    var form = $('form');
+    form.on('submit', function (event) {
+        // On n'exécute pas la requête POST directement
+        event.preventDefault(); 
+
+        // On récupère les données du formulaire
+        var formData = form.serialize(); 
+
+        // On exécute la requête POST via AJAX
+        $.ajax({
+            type: 'POST',
+            url: form.attr('action'),
+            data: formData,
+            // On peut forcer le contenu en JSON si le serveur
+            // ne renvoie pas la bonne en-tête
+            // dataType: 'json'
+        }).done(function (response) {
+            $('h1').html(response);
+        });
+    });
+    </script>
 </body>
 </html>
