@@ -46,10 +46,8 @@
         // On écoute le clic sur un élément qui est chargé en AJAX
         $('body').on('click', '.card a', function (event) {
             event.preventDefault(); // Bloque la redirection du lien
-            console.log('test');
             var id = $(this).attr('data-car'); // id de la voiture cliquée
             $.get('./cars.php?id='+id).done(function (car) {
-                console.log(car);
                 $('#selected-car').html(car.brand + ' ' + car.model + ' ' + car.price + '&euro;' + '<img width="500" src="./'+car.picture+'">');
             });
         });

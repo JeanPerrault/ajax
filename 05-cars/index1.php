@@ -22,7 +22,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <script>
-    $.get('./cars.php').done(function (data) {
+    $.get('./cars1.php').done(function (data) {
         for(var i=0;i<data.length;i++){
             // $('#voiture').append($('<li>'+data[i].brand+'  '+data[i].model+' <br /> '+ $("<img scr=./"+data[i].picture+">") +' <br /> Prix : '+data[i].price+'€'+'</li>'));
             $('#voiture').append($('<li>'+data[i].brand+'  '+data[i].model+' <br /> Prix : '+data[i].price+'€'+'</li>'));
@@ -31,17 +31,7 @@
         
     });
 
-    // On écoute le clic sur un élément qui est chargé en AJAX
-    $('#image').on('click', function (event) {
-            event.preventDefault(); // Bloque la redirection du lien
-            $.get('./cars.php').done(function (data) {
-        for(var i=0;i<data.length;i++){
-            $('#selected-car').html(data[i].brand + ' ' + data[i].model + ' ' + data[i].price + '&euro;' + '<img width="500" src="./img/'+data[i].image+'">');
-        }
-        
-    });        
-                
-    });
+    
     </script>
 </body>
 </html>
