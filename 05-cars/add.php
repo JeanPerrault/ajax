@@ -36,7 +36,8 @@
             $model  = isset($_POST['model']) ? trim($_POST['model']) : null;
             // $price  = isset($_POST['price']) ? trim($_POST['price']) : null;
             $price  = intval($_POST['price']) ? trim($_POST['price']) : null;
-            $picture  = isset($_POST['picture']) ? trim($_POST['picture']) : null;
+            // $picture  = isset($_POST['picture']) ? trim($_POST['picture']) : null;
+            $picture  = $_FILES['picture'];
 
             $errors = [];
 
@@ -51,32 +52,43 @@
             if (!is_numeric($price) || $price < 1) {
                 $errors['price'] = 'Prix invalide.';
             }
+            // on teste le type d'erreur
+            if($picture['error']!==0){
+                $errors['picture'] = 'Vous n\'avez pas ajouté d\'image.';
+            }
+            // l'image est un jpg, jpeg, png, gif
+            if(!isset($errors['picture'])){
+                $extension=pathinfo($picture['name'])['extension']; // renvoie l extension du fichier uploadé
+                if(!in_array(strtolower($extension),['jpg','jpeg','png','gif'])){
+                    $errors['picture'] = 'Image non valide';
+                }
+                // if (!preg_match('/\.(jpg|jpeg|png|gif)$/mi', $extension)) {
+                //     $errors['image'] = 'Image pas valide';
+                // }
+            }
 
             var_dump($errors);
 
-            // if (strlen($brand) <2 ){
-            //     echo "Le marque doit comporter au moins 2 caracteres";
-            // }else if (strlen($model) <2){
-            //     echo "le modele doit comporter au moins 2 caracteres";
-            // }else if(!preg_match("/\.jpg$/", $picture)){
-            //     echo "photo non valide";
-            //     exit;
-            // }else if(!preg_match("/\.jpg$/", $price)){
-            //     echo "Prix non valide";
-            //     exit;
-            // }else{
-            //     echo 'Succès';
-            // }
-                
+                          
         
             // Ajout des données à la BDD
             if (empty($errors)) {
+
+            // on fait l'upload
+            var_dump($picture);
+            // on stocke le nom de l'image dans le repertoire
+            // on créé le repertoire img avant de mette le nom d'image
+            $filename = uniqid().'_'.$picture['name'];
+            move_uploaded_file($picture['tmp_name'],'test_'.$filename);
+            // move_uploaded_file($picture['tmp_name'], __DIR__ .'/img/'.$filename);
+
+
             $query = $db->prepare("INSERT INTO tbl_cars (`brand`, `model`, `price`, `picture`) 
             VALUES (:brand, :model, :price, :picture)");
             $query->bindValue(':brand', $brand);
             $query->bindValue(':model', $model);
             $query->bindValue(':price', $price);
-            $query->bindValue(':picture', $picture);
+            $query->bindValue(':picture', $filename);
             if ($query->execute()) {
                 echo '<div class="alert alert-success">
                     La voiture a été ajoutée!
@@ -92,7 +104,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <form class="crud-form"  method="post">
+                <form class="crud-form"  method="post" enctype="multipart/form-data">
 
                     <div class="form-group">
                         <label for="brand">Brand</label>
@@ -111,7 +123,7 @@
 
                     <div class="form-group">
                         <label for="picture">Picture</label>
-                        <input class="form-control" type="text" name="picture" id="picture" >
+                        <input class="form-control" type="file" name="picture" id="picture" >
                     </div>
 
                     <button type="submit" class="btn btn-success btn-block">Valider</button>

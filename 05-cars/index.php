@@ -15,6 +15,8 @@
         </div>
 
         <div id="selected-car"></div>
+
+        <a href="./add.php" class = "btn-primary" >Ajouter un véhicule</a>
     </div>
     
 

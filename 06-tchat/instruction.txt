@@ -1,0 +1,12 @@
+on veut faire un tchat avec AJAX et PHP
+
+Etape 1 : On prépare la base de données avec une table message (id, pseudo, date, message)
+Etape 2 : On crée un fichier index.php avec le doctype...
+Etape 3 : On crée le fichier message.php
+          On se connecte à la BDD
+          On récupère le pseudo et le message en POST
+          On insére le message en BDD
+Etape 4 : Ecouter l'événement submit du formulaire
+          A la soumission du formulaire, exécuter une requête
+          AJAX sur le fichier message.php sans oublier
+          les données et le type POST
